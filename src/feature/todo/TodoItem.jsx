@@ -4,18 +4,20 @@ import {
   Card,
   CardBody,
   Checkbox,
+  Collapse,
+  Fade,
   HStack,
   IconButton,
+  ScaleFade,
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
 
 import useEditableContent from "./hooks/useEditableContent";
-import useDeleteTodo from "./hooks/useDeleteTodo";
 import useUpdateTodo from "./hooks/useUpdateTodo";
-import TodoDeleteAlert from "./TodoDeleteAlert";
+import TodoButtons from "./TodoButtons";
 
-const TodoItem = ({ todo: { title: text, completed, id } }) => {
+const TodoItem = ({ todo: { title: text, completed, id }, hideCompleted }) => {
   const {
     editableProp,
     isEditable,
@@ -24,86 +26,57 @@ const TodoItem = ({ todo: { title: text, completed, id } }) => {
     cancelEditedContent,
     confirmEditedContent,
   } = useEditableContent();
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const updateTodo = useUpdateTodo({
     onError: cancelEditedContent,
   });
 
-  const deleteTodo = useDeleteTodo();
   const handleChange = async () => {
     await updateTodo({ id, title: text, completed: !completed });
   };
 
-  const handleEdit = async (e) => {
-    confirmEditedContent();
-    await updateTodo({ title: editedText(), completed, id });
-  };
-
-  const handleDelete = async (e) => {
-    await deleteTodo({ id });
-  };
-
-  const buttons = isEditable ? (
-    <Stack direction={{ sm: "row", base: "column" }}>
-      <IconButton variant={"ghost"} icon={<CheckIcon />} onClick={handleEdit} />
-      <IconButton
-        variant={"ghost"}
-        icon={<CloseIcon />}
-        onClick={cancelEditedContent}
-      />
-    </Stack>
-  ) : (
-    <Stack direction={{ sm: "row", base: "column" }}>
-      {!completed && (
-        <IconButton
-          colorScheme="blue"
-          variant={"ghost"}
-          icon={<EditIcon />}
-          onClick={onEdit}
-        />
-      )}
-      <IconButton
-        colorScheme="red"
-        variant={"ghost"}
-        icon={<DeleteIcon />}
-        onClick={onOpen}
-      />
-    </Stack>
-  );
-
   return (
-    <>
-      <Card
-        opacity={completed ? "0.3" : "1"}
-        width={"full"}
-        px={2}
-        borderRadius={8}
-        shadow={"lg"}
-      >
-        <CardBody padding={{ base: "1", sm: "5" }}>
-          <Box>
-            <HStack>
-              <Checkbox onChange={handleChange} isChecked={completed} />
-              <Box
-                textDecoration={completed ? "line-through" : "none"}
-                flex={1}
-                p={1}
-                {...editableProp}
-              >
-                {text}
-              </Box>
-              {buttons}
-            </HStack>
-          </Box>
-        </CardBody>
-      </Card>
-      <TodoDeleteAlert
-        isOpen={isOpen}
-        onClose={onClose}
-        onDelete={handleDelete}
-      />
-    </>
+    <Box width={"full"}>
+      <Collapse unmountOnExit in={!(completed && hideCompleted)} animateOpacity>
+        <Card
+          marginY={1}
+          opacity={completed ? "0.3" : "1"}
+          borderRadius={8}
+          scaleY={!(completed && hideCompleted) ? 0 : 1}
+        >
+          <CardBody padding={{ base: 3, sm: 5 }}>
+            <Box>
+              <HStack>
+                <Checkbox onChange={handleChange} isChecked={completed} />
+                <Box
+                  textDecoration={completed ? "line-through" : "none"}
+                  flex={1}
+                  p={1}
+                  onDoubleClick={() => {
+                    if (!completed) onEdit();
+                  }}
+                  {...editableProp}
+                >
+                  {text}
+                </Box>
+                <TodoButtons
+                  {...{
+                    isEditable,
+                    cancelEditedContent,
+                    confirmEditedContent,
+                    editedText,
+                    completed,
+                    updateTodo,
+                    onEdit,
+                    id,
+                  }}
+                />
+              </HStack>
+            </Box>
+          </CardBody>
+        </Card>
+      </Collapse>
+    </Box>
   );
 };
 

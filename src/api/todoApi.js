@@ -1,14 +1,14 @@
 import axios from "redaxios"
 
 const todosApi = axios.create({
-    baseURL: "http://localhost:3000"
+    baseURL: "https://jsonplaceholder.typicode.com"
 })
 
 export const todosUrlEndpoint = '/todos'
 
 export const getTodosApi = async () => {
     const response = await todosApi.get(todosUrlEndpoint)
-    return response.data
+    return response.data.slice(0, 20)
 }
 
 export const addTodoApi = async (todo) => {

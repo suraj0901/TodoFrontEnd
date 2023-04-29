@@ -10,7 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { useRef } from "react";
 
-const TodoDeleteAlert = ({ isOpen, onClose, onDelete }) => {
+const TodoDeleteAlert = ({
+  isOpen,
+  onClose,
+  onDelete,
+  title = "Delete Todo",
+}) => {
   const cancelRef = useRef();
   return (
     <AlertDialog
@@ -22,8 +27,8 @@ const TodoDeleteAlert = ({ isOpen, onClose, onDelete }) => {
     >
       <AlertDialogOverlay />
 
-      <AlertDialogContent>
-        <AlertDialogHeader>Delete Todo</AlertDialogHeader>
+      <AlertDialogContent marginInline={{ base: 2, sm: 0 }}>
+        <AlertDialogHeader>{title}</AlertDialogHeader>
         <AlertDialogCloseButton />
         <AlertDialogBody>
           Are you sure? You can't undo this action afterwards.

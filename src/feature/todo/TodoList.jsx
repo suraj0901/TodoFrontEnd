@@ -1,50 +1,34 @@
 import {
   Alert,
   AlertIcon,
-  Box,
+  Center,
   Spinner,
-  Stack,
   StackDivider,
   VStack,
 } from "@chakra-ui/react";
 import TodoItem from "./TodoItem";
-import useGetTodo from "./hooks/useGetTodo";
+
+import TodoFilter from "./TodoFilter";
+import useFilter from "./hooks/useFilter";
+import Loader from "../../component/Loader";
+import Error from "../../component/Error";
 
 const TodoList = () => {
-  const { todos, error, isLoading } = useGetTodo();
+  const { isLoading, error, modifiedListOfTodos, ...rest } = useFilter();
+  if (isLoading) return <Loader />;
+  if (error) return <Error />;
 
-  if (isLoading) return <Spinner />;
-  if (error) {
-    console.log(error.stack);
-    return (
-      <Alert status="error">
-        <AlertIcon />
-        {error.message}
-      </Alert>
-    );
-  }
-
-  let completed = [],
-    notCompleted = [];
-  for (const todo of todos) {
-    todo.completed ? completed.push(todo) : notCompleted.push(todo);
-  }
-  const completedTodos = completed.map((todo) => (
-    <TodoItem key={todo.id} todo={todo} />
-  ));
-  const notCompletedTodos = notCompleted.map((todo) => (
-    <TodoItem key={todo.id} todo={todo} />
+  const todosItems = modifiedListOfTodos?.map?.((todo) => (
+    <TodoItem key={todo.id} todo={todo} hideCompleted={rest.hideCompleted} />
   ));
 
   return (
-    <Stack direction={{ base: "column", md: "row" }} divider={<StackDivider />}>
-      <VStack flex={1} spacing={2}>
-        {notCompletedTodos}
+    <VStack alignItems={"stretch"} width={"full"}>
+      <TodoFilter {...rest} />
+      <VStack flex={1} spacing={0}>
+        {todosItems}
       </VStack>
-      <VStack flex={1} spacing={2}>
-        {completedTodos}
-      </VStack>
-    </Stack>
+    </VStack>
   );
 };
 

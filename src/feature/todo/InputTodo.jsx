@@ -4,7 +4,7 @@ import useAddTodo from "./hooks/useAddTodo";
 
 const InputTodo = () => {
   const [todo, setTodo] = useState("");
-  const [counter, setCounter] = useState(10);
+  const [counter, setCounter] = useState(301);
   const addTodo = useAddTodo({
     onSuccess: () => {
       setCounter((prev) => prev + 1);

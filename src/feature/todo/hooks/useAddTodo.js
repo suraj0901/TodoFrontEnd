@@ -1,6 +1,5 @@
 import { useSWRConfig } from "swr"
 import useCustomToast from "../../../hooks/useCustomToast"
-import { sorted } from "../../../hooks/helper"
 import { addTodoApi, todosUrlEndpoint } from "../../../api/todoApi"
 
 const useAddTodo = ({
@@ -15,15 +14,14 @@ const useAddTodo = ({
                 todosUrlEndpoint,
                 addTodoApi(newTodo),
                 {
-                    optimisticData: todos => sorted([...todos, newTodo]),
+                    optimisticData: todos => [...todos, newTodo],
                     rollbackOnError: true,
-                    populateCache: (added, todos) => sorted([...todos, newTodo]),
+                    populateCache: (added, todos) => [...todos, newTodo],
                     revalidate: false
                 }
             )
             toast.success("Created todo")
             onSuccess?.()
-
         } catch (error) {
             console.log(error.stack)
             toast.error(error.message)
