@@ -18,7 +18,7 @@ const InputTodo = () => {
     if (!todo.trim()) return;
     setTodo("");
     await addTodo({
-      id: todos[0]?.id ?? 0 + 1,
+      id: null,
       title: todo,
       completed: false,
     });

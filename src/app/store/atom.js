@@ -6,8 +6,6 @@ const atom = (state) => {
         get: () => state,
         set: newState => {
             state = newState
-            if (!state) localStorage.removeItem("token")
-            else localStorage.setItem("token", state)
             subscribers.forEach(subscriber => subscriber())
         },
         subscribe(callback) {

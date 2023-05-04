@@ -1,6 +1,6 @@
 import atom, { useAtom } from "./atom";
 
-const user = atom(null)
+const user = atom(localStorage.getItem("user"))
 
 export const useUser = () => useAtom(user)
 

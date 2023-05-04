@@ -14,13 +14,10 @@ const useAddTodo = ({
                 todosUrlEndpoint,
                 addTodoApi(newTodo),
                 {
-                    optimisticData: todos => {
-                        console.log([...todos, newTodo])
-                        return [...todos, newTodo]
-                    },
+                    optimisticData: todos => [...todos, newTodo],
                     rollbackOnError: true,
+                    revalidate: false,
                     populateCache: (added, todos) => [...todos, added],
-                    revalidate: false
                 }
             )
             toast.success("Created todo")
