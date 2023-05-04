@@ -1,4 +1,4 @@
-import { deleteTodoApi, todosUrlEndpoint } from "../../../api/todoApi"
+import { deleteTodoApi, todosUrlEndpoint } from "../../../app/api/todoApi"
 import { useSWRConfig } from "swr"
 import useCustomToast from "../../../hooks/useCustomToast"
 

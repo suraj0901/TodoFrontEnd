@@ -15,6 +15,7 @@ import Error from "../../component/Error";
 
 const TodoList = () => {
   const { isLoading, error, modifiedListOfTodos, ...rest } = useFilter();
+
   if (isLoading) return <Loader />;
   if (error) return <Error />;
 

@@ -1,13 +1,14 @@
 import useSWR from "swr"
-import { todosUrlEndpoint } from "../../../api/todoApi"
-import { getTodosApi } from "../../../api/todoApi"
+import { todosUrlEndpoint } from "../../../app/api/todoApi"
+import { getTodosApi } from "../../../app/api/todoApi"
 
 const useGetTodo = () => {
-    const { data, error, isLoading } = useSWR(todosUrlEndpoint, getTodosApi)
+    const { data, error, isLoading, isValidating } = useSWR(todosUrlEndpoint, getTodosApi)
     return {
         todos: data,
         error,
-        isLoading
+        isLoading,
+        isValidating
     }
 }
 

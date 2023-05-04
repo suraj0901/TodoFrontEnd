@@ -1,4 +1,4 @@
-import { todosUrlEndpoint, updateTodoApi } from "../../../api/todoApi"
+import { todosUrlEndpoint, updateTodoApi } from "../../../app/api/todoApi"
 import { useSWRConfig } from "swr"
 import useCustomToast from "../../../hooks/useCustomToast"
 

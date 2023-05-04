@@ -1,6 +1,6 @@
 import { useSWRConfig } from "swr"
 import useCustomToast from "../../../hooks/useCustomToast"
-import { addTodoApi, todosUrlEndpoint } from "../../../api/todoApi"
+import { addTodoApi, todosUrlEndpoint } from "../../../app/api/todoApi"
 
 const useAddTodo = ({
     onSuccess,
@@ -14,9 +14,12 @@ const useAddTodo = ({
                 todosUrlEndpoint,
                 addTodoApi(newTodo),
                 {
-                    optimisticData: todos => [...todos, newTodo],
+                    optimisticData: todos => {
+                        console.log([...todos, newTodo])
+                        return [...todos, newTodo]
+                    },
                     rollbackOnError: true,
-                    populateCache: (added, todos) => [...todos, newTodo],
+                    populateCache: (added, todos) => [...todos, added],
                     revalidate: false
                 }
             )
