@@ -7,7 +7,7 @@ import Layout from "./component/Layout";
 import Todo from "./feature/todo/Todo";
 import Login from "./feature/auth/Login";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Layout />,
