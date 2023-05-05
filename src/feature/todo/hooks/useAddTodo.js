@@ -14,7 +14,7 @@ const useAddTodo = ({
                 todosUrlEndpoint,
                 addTodoApi(newTodo),
                 {
-                    optimisticData: todos => [...todos, newTodo],
+                    optimisticData: todos => [newTodo, ...todos],
                     rollbackOnError: true,
                     revalidate: false,
                     populateCache: (added, todos) => [...todos, added],

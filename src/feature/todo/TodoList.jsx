@@ -1,9 +1,12 @@
 import {
   Alert,
   AlertIcon,
+  Card,
+  CardBody,
   Center,
   Spinner,
   StackDivider,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import TodoItem from "./TodoItem";
@@ -18,6 +21,15 @@ const TodoList = () => {
 
   if (isLoading) return <Loader />;
   if (error) return <Error />;
+
+  if (modifiedListOfTodos.length === 0)
+    return (
+      <Card>
+        <CardBody>
+          <Text>No Todo Available</Text>
+        </CardBody>
+      </Card>
+    );
 
   const todosItems = modifiedListOfTodos?.map?.((todo) => (
     <TodoItem key={todo.id} todo={todo} hideCompleted={rest.hideCompleted} />

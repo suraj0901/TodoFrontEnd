@@ -1,10 +1,8 @@
 import { Box, Button, FormControl, Stack, Textarea } from "@chakra-ui/react";
 import { useState } from "react";
 import useAddTodo from "./hooks/useAddTodo";
-import useGetTodo from "./hooks/useGetTodo";
 
 const InputTodo = () => {
-  const { todos } = useGetTodo();
   const [todo, setTodo] = useState("");
   const addTodo = useAddTodo({
     onError: () => {
@@ -18,7 +16,7 @@ const InputTodo = () => {
     if (!todo.trim()) return;
     setTodo("");
     await addTodo({
-      id: null,
+      id: Number.MAX_SAFE_INTEGER,
       title: todo,
       completed: false,
     });
