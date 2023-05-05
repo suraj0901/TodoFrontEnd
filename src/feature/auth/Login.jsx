@@ -20,7 +20,7 @@ const GoogleIcon = (props) => (
   </Icon>
 );
 
-const loginByGoogle = `https://todoapi-r7dr.onrender.com/api/auth/login/google`;
+const loginByGoogle = `http://todoapi-r7dr.onrender.com/api/auth/login/google`;
 
 const Login = () => {
   const [searchParam] = useSearchParams();
